@@ -12,3 +12,10 @@ def kmeans(features, k, num_iterations = 10, plot_progress = None):
 		centroids = [features[cluster == k].mean(axis = 0) for k in range(k)]
 		if plot_progress != None: plot_progress(features, cluster, n.array(centroids))
 		return n.array(centroids), cluster
+
+''' returning indicies of all henries classified in same cluster as ideal henri
+'''
+def get_henris(clusters):
+	henri_cluster = clusters[0]
+	indicies = [i for i, x in enumerate(clusters) if x == henri_cluster]
+	return indicies
