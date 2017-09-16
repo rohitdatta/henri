@@ -15,4 +15,4 @@ a['WAGE_RATE_OF_PAY_FROM'] = a['WAGE_RATE_OF_PAY_FROM'].apply(
 b = a[~(a['WAGE_RATE_OF_PAY_FROM'] < 10000)]
 b.head()
 
-b.to_csv('h1b.tsv', sep='\t')
+b.to_csv('h1b.tsv', sep='\t', index=False)
