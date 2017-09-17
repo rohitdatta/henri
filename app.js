@@ -10,7 +10,8 @@ import {csv as requestCsv} from 'd3-request';
 const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
 
 // Source data CSV
-const DATA_URL = 'http://d39a521b.ngrok.io/heatmap-data.csv';  // eslint-disable-line
+// const DATA_URL = 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv';  // eslint-disable-line
+const DATA_URL = 'https://raw.githubusercontent.com/rohitdatta/hackmit/master/deeplearning/data/heatmap-data.csv';
 
 class Root extends Component {
 
@@ -53,6 +54,7 @@ class Root extends Component {
 
   render() {
     const {viewport, data} = this.state;
+    console.log(this.state)
 
     return (
       <MapGL
