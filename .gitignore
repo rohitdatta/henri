@@ -162,3 +162,6 @@ typings/
 
 # dotenv environment variables file
 .env
+
+GoogleNews-vectors-negative300.bin*
+*.model
