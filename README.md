@@ -22,7 +22,7 @@ Deck.gl and Neo4j
 
 ### Installation process:
 
-If you have not alreaady, install babel on your machine
+If you have not already, install babel on your machine
 1. ```npm install -g babel```
 2. ```npm install -g babel-cli```
 
