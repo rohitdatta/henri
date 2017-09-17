@@ -44,123 +44,121 @@ while len(to_visit) > 0:
 	driver.get(url)
 
 	time.sleep(random.random()*4+2)
-	# try:
-	html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
-	soup = BeautifulSoup(html, 'html.parser')
-	name = soup.find('h1', attrs={'class': 'pv-top-card-section__name'}).text
-	# print name
-	experience_section = soup.find('section', attrs={"class":"experience-section"})
-	current_exp = experience_section.find('div', attrs={'class': 'pv-entity__summary-info'})
-	job = (current_exp.find('h3')).text.upper()
-	company = current_exp.find('span', attrs={'class': 'pv-entity__secondary-title'}).text.upper()
-
 	try:
-		# browse through the list of others viewed
-		list_of_others = soup.find('ul', attrs={'class': 'browsemap'})
-		for li in list_of_others.findAll('li'):
-			url_suffix = li.find('a')['href']
-			full_url = 'https://www.linkedin.com%s' % url_suffix
-			full_url = full_url.rstrip('/')
-			if full_url not in visited:
-				to_visit.append((full_url, url))
-	except Exception as e:
-		print('unable to parse list')
+		html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
+		soup = BeautifulSoup(html, 'html.parser')
+		name = soup.find('h1', attrs={'class': 'pv-top-card-section__name'}).text
+		# print name
+		experience_section = soup.find('section', attrs={"class":"experience-section"})
+		current_exp = experience_section.find('div', attrs={'class': 'pv-entity__summary-info'})
+		job = (current_exp.find('h3')).text.upper()
+		company = current_exp.find('span', attrs={'class': 'pv-entity__secondary-title'}).text.upper()
 
-	try:
-		location = current_exp.find('h4', attrs={'class': 'pv-entity__location'}).find('span', class_=lambda x: x != 'visually-hidden').text.upper()
-	except Exception:
-		print('No Location Info Found')
+		try:
+			# browse through the list of others viewed
+			list_of_others = soup.find('ul', attrs={'class': 'browsemap'})
+			for li in list_of_others.findAll('li'):
+				url_suffix = li.find('a')['href']
+				full_url = 'https://www.linkedin.com%s' % url_suffix
+				full_url = full_url.rstrip('/')
+				if full_url not in visited:
+					to_visit.append((full_url, url))
+		except Exception as e:
+			print('unable to parse list')
 
-	if ',' in location and not location.lower().endswith('area'):
-		city = location.split(',')[0].rstrip()
-		state = location.split(',')[1].lstrip()
-	else:
-		truncated = location.lower()
-		if location.lower().endswith('area'):
-			if location.lower().startswith('greater'):
-				truncated = truncated.split(' ', 1)[1]
-			truncated = truncated.rsplit(' ', 1)[0]
+		try:
+			location = current_exp.find('h4', attrs={'class': 'pv-entity__location'}).find('span', class_=lambda x: x != 'visually-hidden').text.upper()
+		except Exception:
+			print('No Location Info Found')
 
-		# query google maps places api
-		r = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query={}&key={}'.format(truncated.replace(' ', '%20'), os.getenv('GOOGLE_MAPS_API_KEY')))
-		formatted_addr = json.loads(r.text)['results'][0]['formatted_address']
-		if not formatted_addr.endswith(', USA'):
-			continue
+		if ',' in location and not location.lower().endswith('area'):
+			city = location.split(',')[0].rstrip()
+			state = location.split(',')[1].lstrip()
+		else:
+			truncated = location.lower()
+			if location.lower().endswith('area'):
+				if location.lower().startswith('greater'):
+					truncated = truncated.split(' ', 1)[1]
+				truncated = truncated.rsplit(' ', 1)[0]
 
-		# print formatted_addr
-		truncated = formatted_addr.rstrip(', USA')
-		city = formatted_addr.split(',')[0].rstrip().upper()
-		state = formatted_addr.split(',')[1].lstrip().upper()
+			# query google maps places api
+			r = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query={}&key={}'.format(truncated.replace(' ', '%20'), os.getenv('GOOGLE_MAPS_API_KEY')))
+			formatted_addr = json.loads(r.text)['results'][0]['formatted_address']
+			if not formatted_addr.endswith(', USA'):
+				continue
 
-		if 'San Francisco' in formatted_addr:
-			city = 'SAN FRANCISCO'
-			state = 'CA'
+			# print formatted_addr
+			truncated = formatted_addr.rstrip(', USA')
+			city = formatted_addr.split(',')[0].rstrip().upper()
+			state = formatted_addr.split(',')[1].lstrip().upper()
 
-		us_state_abbrev = {
-			'ALABAMA': 'AL',
-			'ALASKA': 'AK',
-			'ARIZONA': 'AZ',
-			'ARKANSAS': 'AR',
-			'CALIFORNIA': 'CA',
-			'COLORADO': 'CO',
-			'CONNECTICUT': 'CT',
-			'DELAWARE': 'DE',
-			'FLORIDA': 'FL',
-			'GEORGIA': 'GA',
-			'HAWAII': 'HI',
-			'IDAHO': 'ID',
-			'ILLINOIS': 'IL',
-			'INDIANA': 'IN',
-			'IOWA': 'IA',
-			'KANSAS': 'KS',
-			'KENTUCKY': 'KY',
-			'LOUISIANA': 'LA',
-			'MAINE': 'ME',
-			'MARYLAND': 'MD',
-			'MASSACHUSETTS': 'MA',
-			'MICHIGAN': 'MI',
-			'MINNESOTA': 'MN',
-			'MISSISSIPPI': 'MS',
-			'MISSOURI': 'MO',
-			'MONTANA': 'MT',
-			'NEBRASKA': 'NE',
-			'NEVADA': 'NV',
-			'NEW HAMPSHIRE': 'NH',
-			'NEW JERSEY': 'NJ',
-			'NEW MEXICO': 'NM',
-			'NEW YORK': 'NY',
-			'NORTH CAROLINA': 'NC',
-			'NORTH DAKOTA': 'ND',
-			'OHIO': 'OH',
-			'OKLAHOMA': 'OK',
-			'OREGON': 'OR',
-			'PENNSYLVANIA': 'PA',
-			'RHODE ISLAND': 'RI',
-			'SOUTH CAROLINA': 'SC',
-			'SOUTH DAKOTA': 'SD',
-			'TENNESSEE': 'TN',
-			'TEXAS': 'TX',
-			'UTAH': 'UT',
-			'VERMONT': 'VT',
-			'VIRGINIA': 'VA',
-			'WASHINGTON': 'WA',
-			'WEST VIRGINIA': 'WV',
-			'WISCONSIN': 'WI',
-			'WYOMING': 'WY',
-		}
+			if 'San Francisco' in formatted_addr:
+				city = 'SAN FRANCISCO'
+				state = 'CA'
 
-		if state in us_state_abbrev:
-			state = us_state_abbrev['state']
+			us_state_abbrev = {
+				'ALABAMA': 'AL',
+				'ALASKA': 'AK',
+				'ARIZONA': 'AZ',
+				'ARKANSAS': 'AR',
+				'CALIFORNIA': 'CA',
+				'COLORADO': 'CO',
+				'CONNECTICUT': 'CT',
+				'DELAWARE': 'DE',
+				'FLORIDA': 'FL',
+				'GEORGIA': 'GA',
+				'HAWAII': 'HI',
+				'IDAHO': 'ID',
+				'ILLINOIS': 'IL',
+				'INDIANA': 'IN',
+				'IOWA': 'IA',
+				'KANSAS': 'KS',
+				'KENTUCKY': 'KY',
+				'LOUISIANA': 'LA',
+				'MAINE': 'ME',
+				'MARYLAND': 'MD',
+				'MASSACHUSETTS': 'MA',
+				'MICHIGAN': 'MI',
+				'MINNESOTA': 'MN',
+				'MISSISSIPPI': 'MS',
+				'MISSOURI': 'MO',
+				'MONTANA': 'MT',
+				'NEBRASKA': 'NE',
+				'NEVADA': 'NV',
+				'NEW HAMPSHIRE': 'NH',
+				'NEW JERSEY': 'NJ',
+				'NEW MEXICO': 'NM',
+				'NEW YORK': 'NY',
+				'NORTH CAROLINA': 'NC',
+				'NORTH DAKOTA': 'ND',
+				'OHIO': 'OH',
+				'OKLAHOMA': 'OK',
+				'OREGON': 'OR',
+				'PENNSYLVANIA': 'PA',
+				'RHODE ISLAND': 'RI',
+				'SOUTH CAROLINA': 'SC',
+				'SOUTH DAKOTA': 'SD',
+				'TENNESSEE': 'TN',
+				'TEXAS': 'TX',
+				'UTAH': 'UT',
+				'VERMONT': 'VT',
+				'VIRGINIA': 'VA',
+				'WASHINGTON': 'WA',
+				'WEST VIRGINIA': 'WV',
+				'WISCONSIN': 'WI',
+				'WYOMING': 'WY',
+			}
 
-	with open("evonne.tsv", "a") as myfile:
-		myfile.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(name, url, job, company, state, city, referrer))
+			if state in us_state_abbrev:
+				state = us_state_abbrev['state']
+
+		with open("evonne.tsv", "a") as myfile:
+			myfile.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(name, url, job, company, state, city, referrer))
 			# myfile.write("{}\t{}\t{}\t{}\t{}\n".format(name, job, company, url, referrer))
 
-	# except Exception as e:
-	# 	print 'Failed to load properly for {}'.format(url)
-	# 	print e
-	# 	raise Exception
-
+	except Exception as e:
+		print 'Failed to load properly for {}'.format(url)
+		print e
 
 time.sleep(10)
 driver.quit()
