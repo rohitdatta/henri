@@ -115,7 +115,7 @@ export default class DeckGLOverlay extends Component {
         colorRange,
         coverage,
         data,
-        elevationRange: [0, 3000000],
+        elevationRange: [0, 800],
         elevationScale: this.state.elevationScale,
         extruded: true,
         getPosition: d => d,
