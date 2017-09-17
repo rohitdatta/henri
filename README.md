@@ -6,3 +6,17 @@
 - LinkedIn job headline
 - Emojis in tweets
 
+# Supervised approach
+
+Since "training data" or a "ground truth" doesn't really exist for finding HENRY's (finding exact income for people is tricky) we use a fuzzy rule-based imputation on the entire Henry column. This means hand-selecting some features that are prominent to our knowledge of a "HENRY" and applying a prior.
+
+Once we had a "ground truth", we trained a deep feed-forward neural network to classify a HENRY.
+
+# Unsupervised approach
+
+K-means clustering with various hyperparameters and seeing which center(s) conform to our knowledge of a "HENRY".
+
+# Visualization
+
+Deck.gl and Neo4j
+
