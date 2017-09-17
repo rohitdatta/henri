@@ -31,9 +31,10 @@ email_box.send_keys(os.getenv('LINKEDIN_EMAIL'))
 password_box = driver.find_element_by_css_selector('#login-password')
 password_box.send_keys(os.getenv('LINKEDIN_PASSWORD'))
 email_box.submit()
+# time.sleep(30)
 
 visited = []
-to_visit = [(u'https://www.linkedin.com/in/dattascience', 'ROOT')]
+to_visit = [(u'https://www.linkedin.com/in/kinsey-cation-04a7a611b', 'ROOT')]
 while len(to_visit) > 0:
 	url_tuple = to_visit.pop(0)
 	url = url_tuple[0].rstrip('/')

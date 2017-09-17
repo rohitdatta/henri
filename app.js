@@ -10,7 +10,8 @@ import {csv as requestCsv} from 'd3-request';
 const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
 
 // Source data CSV
-const DATA_URL = 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv';  // eslint-disable-line
+const DATA_URL = 'https://raw.githubusercontent.com/rohitdatta/deck.gl-data/master/examples/3d-heatmap/1k.csv';  // eslint-disable-line
+// const DATA_URL = 'http://5da76c04.ngrok.io/data.csv';  // eslint-disable-line
 
 class Root extends Component {
 
@@ -28,6 +29,7 @@ class Root extends Component {
     requestCsv(DATA_URL, (error, response) => {
       if (!error) {
         const data = response.map(d => ([Number(d.lng), Number(d.lat)]));
+        console.log(data);
         this.setState({data});
       }
     });

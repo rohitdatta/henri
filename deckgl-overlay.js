@@ -36,10 +36,10 @@ export default class DeckGLOverlay extends Component {
 
   static get defaultViewport() {
     return {
-      longitude: -1.4157267858730052,
-      latitude: 52.232395363869415,
+      longitude: -97.743822,
+      latitude: 30.287305,
       zoom: 6.6,
-      minZoom: 5,
+      minZoom: 2,
       maxZoom: 15,
       pitch: 40.5,
       bearing: -27.396674584323023
@@ -115,7 +115,7 @@ export default class DeckGLOverlay extends Component {
         colorRange,
         coverage,
         data,
-        elevationRange: [0, 3000],
+        elevationRange: [0, 5000],
         elevationScale: this.state.elevationScale,
         extruded: true,
         getPosition: d => d,
