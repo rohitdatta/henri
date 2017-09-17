@@ -46,3 +46,21 @@ def gen_database(file):
 			company = {row[1]:state}
 			db[row[0]] = company
 	return db
+
+''' generates the dataset to be analyzed by mapping linkedin data to the h1b database
+	input: name\tlinkedin\tjob_title\temployer\tstate\tcity
+	output: [name, linkedin, job_title, employer, state, city, wage]
+'''
+def gen_dataset(file, db):
+	dataset = []
+	input_file = open(file)
+	for line in input_file:
+		row = line.split("\t")
+		row[-1] = row[-1].rstrip('\n')
+		if row[2] in db and row[3] in db[row[2]] and row[4] in db[row[2]][row[3]] \
+		and row[5] in db[row[2]][row[3]][row[4]]:
+			tup = db[row[2]][row[3]][row[4]][row[5]]
+			wage = int(tup[0]) / int(tup[1])
+			row.append(wage)
+			dataset.append(row)
+	return dataset
