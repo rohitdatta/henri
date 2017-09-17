@@ -1,0 +1,34 @@
+{
+  "name": "hackmit",
+  "version": "1.0.0",
+  "description": "Henri Finder",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohitdatta/hackmit.git"
+  },
+  "author": "evonneng, rainiera, rohitdatta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rohitdatta/hackmit/issues"
+  },
+  "homepage": "https://github.com/rohitdatta/hackmit#readme",
+  "dependencies": {
+    "d3-request": "^1.0.5",
+    "deck.gl": "^4.1.0",
+    "luma.gl": "^4.0.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-map-gl": "^3.0.0",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.8.2"
+  },
+  "devDependencies": {
+    "buble-loader": "^0.4.0",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
+  }
+}

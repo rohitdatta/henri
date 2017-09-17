@@ -20,3 +20,24 @@ K-means clustering with various hyperparameters and seeing which center(s) confo
 
 Deck.gl and Neo4j
 
+### Installation process:
+
+If you have not alreaady, install babel on your machine
+1. ```npm install -g babel```
+2. ```npm install -g babel-cli```
+
+Then install of the dependencies and webpacks necessary to run react
+```bash
+npm install webpack --save 
+npm install webpack-dev-server --save
+npm install react --save
+npm install react-dom --save
+npm install babel-core --save
+npm install babel-loader
+npm install babel-preset-react
+npm install babel-preset-es2015
+```
+
+To get the server up and running
+```npm start```
+and then head over to http://localhost:8080
