@@ -165,3 +165,6 @@ typings/
 
 GoogleNews-vectors-negative300.bin*
 *.model
+*.tsv
+kmeans_vectors
+*.csv
