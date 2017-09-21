@@ -2,9 +2,13 @@
 
 Winner of the sponsor prize ("Spot the HENRY") awarded by BNP Paribas at HackMIT 2017.
 
-Data wrangling and project management: [@rainiera](https://github.com/rainiera)
+Data wrangling and prime minister: [@rainiera](https://github.com/rainiera)
 
 Data visualization: [@evonneng](https://github.com/evonneng), [@rohitdatta](https://github.com/rohitdatta)
+
+Semi-Unsupervised Learning: [@evonneng](https://github.com/evonneng)
+
+Supervised Learning: [@rainiera](https://github.com/rainiera)
 
 LinkedIn scraper: [@rohitdatta](https://github.com/rohitdatta)
 
